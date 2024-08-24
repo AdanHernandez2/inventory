@@ -2,7 +2,7 @@
 
     Primero creas la base de datos, despues creas las tablas
 
-*/==============================================================
+==============================================================*/
 
 CREATE DATABASE DBSISTEMA_INVENTARIO
 
@@ -147,11 +147,12 @@ Direccion varchar(60),
 Logo varbinary(max) NULL
 )
 
+go
 /* ====================================
 
     Procedimientos almacenados 
 
-*/=====================================
+=====================================*/
 
 CREATE PROCEDURE sp_verificar_stock
     @IdProducto VARCHAR(50),
@@ -224,3 +225,60 @@ BEGIN
         WHERE Codigo = @IdProducto;
     END
 END;
+
+go
+
+/* ====================================
+
+    Creando registros
+
+=====================================*/
+
+GO
+
+ insert into ROL (Descripcion)
+ values('ADMINISTRADOR')
+
+ GO
+
+  insert into ROL (Descripcion)
+ values('EMPLEADO')
+
+ GO
+
+ insert into USUARIO(Documento,NombreCompleto,Correo,Clave,IdRol,Estado)
+ values 
+ ('101010','ADMIN','@GMAIL.COM','123456',1,1)
+
+ GO
+
+
+ insert into USUARIO(Documento,NombreCompleto,Correo,Clave,IdRol,Estado)
+ values 
+ ('202020','EMPLEADO','@GMAIL.COM','123456',2,1)
+
+ GO
+
+  insert into PERMISO(IdRol,NombreMenu) values
+  (1,'menuusuarios'),
+  (1,'menumantenedor'),
+  (1,'menuventas'),
+  (1,'menucompras'),
+  (1,'menuclientes'),
+  (1,'menuproveedores'),
+  (1,'menureportes'),
+  (1,'menuacercade')
+
+  GO
+
+  insert into PERMISO(IdRol,NombreMenu) values
+  (2,'menuventas'),
+  (2,'menucompras'),
+  (2,'menuclientes'),
+  (2,'menuproveedores'),
+  (2,'menuacercade')
+
+  GO
+
+  insert into NEGOCIO(IdNegocio,Nombre,RIF,Direccion,Logo) values
+  (1,'COMECA','20202020','av intercomunal, puente miranda',null)
