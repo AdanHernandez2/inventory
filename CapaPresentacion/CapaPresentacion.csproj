@@ -291,6 +291,7 @@
     <None Include="Resources\PlantillaVenta.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="QuerySQL\query.sql" />
     <Content Include="Resources\LogoComeca.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

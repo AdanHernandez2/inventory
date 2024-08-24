@@ -170,7 +170,7 @@
             // 
             // btnlimpiar
             // 
-            this.btnlimpiar.BackColor = System.Drawing.Color.RoyalBlue;
+            this.btnlimpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(14)))), ((int)(((byte)(112)))), ((int)(((byte)(243)))));
             this.btnlimpiar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnlimpiar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnlimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -310,7 +310,7 @@
             // 
             // btnmodificar
             // 
-            this.btnmodificar.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.btnmodificar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(66)))), ((int)(((byte)(87)))));
             this.btnmodificar.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnmodificar.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.btnmodificar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

@@ -108,7 +108,7 @@ namespace CapaPresentacion
         {
             if (MenuActivo != null)
             {
-                MenuActivo.BackColor = Color.White;
+                MenuActivo.BackColor = Color.FromArgb(46, 66, 87);
             }
             menu.BackColor = Color.Silver;
             MenuActivo = menu;
@@ -122,7 +122,7 @@ namespace CapaPresentacion
             formulario.TopLevel = false;
             formulario.FormBorderStyle = FormBorderStyle.None;
             formulario.Dock = DockStyle.Fill;
-            formulario.BackColor = Color.SteelBlue;
+            formulario.BackColor = Color.FromArgb(29, 29, 32);
 
             contenedor.Controls.Add(formulario);
             formulario.Show();

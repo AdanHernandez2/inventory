@@ -108,6 +108,34 @@ namespace CapaPresentacion
                 return;
             }
 
+            // Verificar longitud de clave
+            if (txtclave.Text.Length < 6)
+            {
+                MessageBox.Show("La clave debe tener al menos 6 caracteres.");
+                return;
+            }
+
+            // Verificar longitud de confirmación de clave
+            if (txtconfirmarclave.Text.Length < 6)
+            {
+                MessageBox.Show("La confirmación de la clave debe tener al menos 6 caracteres.");
+                return;
+            }
+
+            // Verificar que el campo Documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el campo Nombre Completo solo contenga letras y espacios
+            if (!txtnombrecompleto.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("El nombre completo debe contener solo letras y espacios.");
+                return;
+            }
+
             // Verificar si el usuario ya existe
             if (UserExists(txtdocumento.Text))
             {
@@ -140,7 +168,7 @@ namespace CapaPresentacion
 
                         comando.ExecuteNonQuery();
                     }
-                    llenar_tabla(); // actualizar tabla despues de agregar usuario
+                    llenar_tabla(); // actualizar tabla después de agregar usuario
                     MessageBox.Show("Registro agregado");
                 }
             }
@@ -149,6 +177,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
         private bool UserExists(string documento)
         {
@@ -256,6 +285,27 @@ namespace CapaPresentacion
                 return;
             }
 
+            // Verificar longitud de la clave
+            if (txtclave.Text.Length < 6)
+            {
+                MessageBox.Show("La clave debe tener al menos 6 caracteres.");
+                return;
+            }
+
+            // Verificar que el campo Documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el campo Nombre Completo solo contenga letras y espacios
+            if (!txtnombrecompleto.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("El nombre completo debe contener solo letras y espacios.");
+                return;
+            }
+
             // Verificar que el valor seleccionado del estado es un booleano
             bool estado = (bool)cboestado.SelectedValue;
 
@@ -265,15 +315,15 @@ namespace CapaPresentacion
                 {
                     conexion.Open();
                     string consulta = @"
-            UPDATE USUARIO
-            SET 
-                NombreCompleto = @nombrecompleto,
-                Correo = @correo,
-                Clave = @clave,
-                IdRol = @idrol,
-                Estado = @estado
-            WHERE 
-                Documento = @documento";
+    UPDATE USUARIO
+    SET 
+        NombreCompleto = @nombrecompleto,
+        Correo = @correo,
+        Clave = @clave,
+        IdRol = @idrol,
+        Estado = @estado
+    WHERE 
+        Documento = @documento";
 
                     using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {

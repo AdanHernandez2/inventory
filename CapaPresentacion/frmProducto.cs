@@ -87,6 +87,13 @@ namespace CapaPresentacion
                 return;
             }
 
+            // Verificar que el código solo contenga números
+            if (!txtcodigo.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El código debe contener solo números.");
+                return;
+            }
+
             // Verificar si el producto ya existe
             if (ProductExists(txtcodigo.Text))
             {
@@ -106,7 +113,9 @@ namespace CapaPresentacion
                 using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
                 {
                     conexion.Open();
-                    string consulta = "INSERT INTO PRODUCTO (Codigo, Nombre, Descripcion, Stock, PrecioCompra, PrecioVenta, IdCategoria, Estado) VALUES (@codigo, @nombre, @descripcion, @stock, @preciocompra, @precioventa, @idcategoria, @estado)";
+                    string consulta = @"
+    INSERT INTO PRODUCTO (Codigo, Nombre, Descripcion, Stock, PrecioCompra, PrecioVenta, IdCategoria, Estado) 
+    VALUES (@codigo, @nombre, @descripcion, @stock, @preciocompra, @precioventa, @idcategoria, @estado)";
 
                     using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
@@ -131,6 +140,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
         private bool ProductExists(string codigo)
         {
@@ -220,6 +230,13 @@ INNER JOIN
             if (string.IsNullOrWhiteSpace(txtcodigo.Text))
             {
                 MessageBox.Show("Por favor, ingrese el código del producto.");
+                return;
+            }
+
+            // Verificar que el código solo contenga números
+            if (!txtcodigo.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El código debe contener solo números.");
                 return;
             }
 

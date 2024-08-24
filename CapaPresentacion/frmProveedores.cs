@@ -55,6 +55,27 @@ namespace CapaPresentacion
                 return;
             }
 
+            // Verificar que el documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que la razón social solo contenga letras y espacios
+            if (!txtrazonsocial.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("La razón social debe contener solo letras y espacios.");
+                return;
+            }
+
+            // Verificar que el teléfono solo contenga números
+            if (!txttelefono.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El teléfono debe contener solo números.");
+                return;
+            }
+
             // Verificar si el proveedor ya existe
             if (ProveedorExists(txtdocumento.Text))
             {
@@ -67,7 +88,9 @@ namespace CapaPresentacion
                 using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
                 {
                     conexion.Open();
-                    string consulta = "INSERT INTO PROVEEDOR (Documento, RazonSocial, Correo, Telefono, Estado) VALUES (@documento, @razonsocial, @correo, @telefono, @estado)";
+                    string consulta = @"
+INSERT INTO PROVEEDOR (Documento, RazonSocial, Correo, Telefono, Estado) 
+VALUES (@documento, @razonsocial, @correo, @telefono, @estado)";
 
                     using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
@@ -89,6 +112,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
         private bool ProveedorExists(string documento)
         {
@@ -161,6 +185,27 @@ FROM
                 return;
             }
 
+            // Verificar que el documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que la razón social solo contenga letras y espacios
+            if (!txtrazonsocial.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("La razón social debe contener solo letras y espacios.");
+                return;
+            }
+
+            // Verificar que el teléfono solo contenga números
+            if (!txttelefono.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El teléfono debe contener solo números.");
+                return;
+            }
+
             try
             {
                 using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
@@ -188,7 +233,7 @@ WHERE
                     }
 
                     MessageBox.Show("Registro modificado");
-                    llenar_tabla();
+                    llenar_tabla(); // Actualizar tabla después de modificar el proveedor
                 }
             }
             catch (Exception ex)
@@ -196,6 +241,7 @@ WHERE
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
         private void btnlimpiar_Click(object sender, EventArgs e)
         {

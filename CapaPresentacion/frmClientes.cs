@@ -56,6 +56,27 @@ namespace CapaPresentacion
                 return;
             }
 
+            // Verificar que el documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el teléfono solo contenga números
+            if (!txttelefono.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El teléfono debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el nombre completo solo contenga letras y espacios
+            if (!txtnombrecompleto.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("El nombre completo debe contener solo letras y espacios.");
+                return;
+            }
+
             // Verificar si el cliente ya existe
             if (ClientExists(txtdocumento.Text))
             {
@@ -68,7 +89,9 @@ namespace CapaPresentacion
                 using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
                 {
                     conexion.Open();
-                    string consulta = "INSERT INTO CLIENTE (Documento, NombreCompleto, Correo, Telefono, Estado) VALUES (@documento, @nombrecompleto, @correo, @telefono, @estado)";
+                    string consulta = @"
+    INSERT INTO CLIENTE (Documento, NombreCompleto, Correo, Telefono, Estado) 
+    VALUES (@documento, @nombrecompleto, @correo, @telefono, @estado)";
 
                     using (SqlCommand comando = new SqlCommand(consulta, conexion))
                     {
@@ -90,6 +113,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
 
         private bool ClientExists(string documento)
         {
@@ -162,6 +186,27 @@ FROM
                 return;
             }
 
+            // Verificar que el documento solo contenga números
+            if (!txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el teléfono solo contenga números
+            if (!txttelefono.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El teléfono debe contener solo números.");
+                return;
+            }
+
+            // Verificar que el nombre completo solo contenga letras y espacios
+            if (!txtnombrecompleto.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
+            {
+                MessageBox.Show("El nombre completo debe contener solo letras y espacios.");
+                return;
+            }
+
             try
             {
                 using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
@@ -189,7 +234,7 @@ WHERE
                     }
 
                     MessageBox.Show("Registro modificado");
-                    llenar_tabla();
+                    llenar_tabla(); // Actualizar tabla después de modificar el cliente
                 }
             }
             catch (Exception ex)
