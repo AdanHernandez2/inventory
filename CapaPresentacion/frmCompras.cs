@@ -17,7 +17,7 @@ namespace CapaPresentacion
     public partial class frmCompras : Form
     {
         private string documentoUsuario;
-        private string connectionString = "Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"; // Actualiza con tu cadena de conexión
+        private string connectionString = "Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"; // Actualiza con tu cadena de conexión
 
         public frmCompras(string documentoUsuario)
         {

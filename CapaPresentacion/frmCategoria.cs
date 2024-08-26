@@ -57,7 +57,7 @@ namespace CapaPresentacion
         // Cargar datos en el DataGridView
         private void LoadData(string filtro = "")
         {
-            using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+            using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
             {
                 string consulta = @"
     SELECT 
@@ -159,7 +159,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"
@@ -207,7 +207,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"

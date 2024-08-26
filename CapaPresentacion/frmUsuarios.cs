@@ -32,7 +32,7 @@ namespace CapaPresentacion
         {
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "SELECT IdRol, Descripcion FROM ROL";
@@ -158,7 +158,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "INSERT INTO USUARIO (Documento, NombreCompleto, Correo, Clave, IdRol, Estado) VALUES (@documento, @nombrecompleto, @correo, @clave, @idrol, @estado)";
@@ -191,7 +191,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "SELECT COUNT(*) FROM USUARIO WHERE Documento = @documento";
@@ -214,7 +214,7 @@ namespace CapaPresentacion
 
         private void llenar_tabla(string filtro = "")
         {
-            using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+            using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
             {
                 string consulta = @"
         SELECT 
@@ -252,7 +252,7 @@ namespace CapaPresentacion
 
         private void btneliminar_Click(object sender, EventArgs e)
         {
-            SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;");
+            SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;");
             conexion.Open();
             string consulta = "delete from USUARIO where Documento='" + txtdocumento.Text + "' ";
             SqlCommand comando = new SqlCommand(consulta, conexion);
@@ -324,7 +324,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"

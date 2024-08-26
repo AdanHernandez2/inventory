@@ -85,7 +85,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"
@@ -120,7 +120,7 @@ VALUES (@documento, @razonsocial, @correo, @telefono, @estado)";
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "SELECT COUNT(*) FROM PROVEEDOR WHERE Documento = @documento";
@@ -143,7 +143,7 @@ VALUES (@documento, @razonsocial, @correo, @telefono, @estado)";
 
         private void llenar_tabla(string filtro = "")
         {
-            using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+            using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
             {
                 string consulta = @"
 SELECT  
@@ -208,7 +208,7 @@ FROM
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"

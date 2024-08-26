@@ -15,7 +15,7 @@ namespace CapaPresentacion
 
     public partial class frmNegocio : Form
     {
-        private string connectionString = "Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"; // Reemplaza esto con tu cadena de conexión a la base de datos
+        private string connectionString = "Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"; // Reemplaza esto con tu cadena de conexión a la base de datos
         private int idNegocio = 1; // Cambia esto al ID del negocio que estás editando
 
         public frmNegocio()

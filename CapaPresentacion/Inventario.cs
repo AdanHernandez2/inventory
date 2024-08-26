@@ -32,7 +32,7 @@ namespace CapaPresentacion
         private void CargarDatos(string filtro = "", string busqueda = "")
         {
             // Cadena de conexión a la base de datos
-            string connectionString = "Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;";
+            string connectionString = "Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;";
 
             // Consulta SQL para obtener los datos de inventario con el filtro aplicado
             string query = "SELECT Codigo AS 'Código del Producto', Nombre AS 'Nombre del Producto', Stock AS 'Cantidad en Stock' FROM PRODUCTO WHERE Estado = 1";

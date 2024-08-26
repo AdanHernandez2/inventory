@@ -31,7 +31,7 @@ namespace CapaPresentacion
         {
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "SELECT IdCategoria, Descripcion FROM CATEGORIA";
@@ -110,7 +110,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"
@@ -148,7 +148,7 @@ namespace CapaPresentacion
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = "SELECT COUNT(*) FROM PRODUCTO WHERE Codigo = @codigo";
@@ -171,7 +171,7 @@ namespace CapaPresentacion
 
         private void llenar_tabla(string filtro = "")
         {
-            using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+            using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
             {
                 string consulta = @"
 SELECT 
@@ -255,7 +255,7 @@ INNER JOIN
 
             try
             {
-                using (SqlConnection conexion = new SqlConnection("Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"))
+                using (SqlConnection conexion = new SqlConnection("Data Source=Rosibell-PC\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO; Integrated Security=True;"))
                 {
                     conexion.Open();
                     string consulta = @"
