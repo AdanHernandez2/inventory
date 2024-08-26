@@ -401,6 +401,7 @@ namespace CapaPresentacion
                     }
 
                     transaction.Commit();
+                    Clipboard.SetText(numeroDocumento);
                     MessageBox.Show("Venta registrada con éxito. El número de documento ha sido copiado al portapapeles.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LimpiarFormulario();
                 }
