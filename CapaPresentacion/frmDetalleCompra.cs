@@ -209,5 +209,105 @@ namespace CapaPresentacion
         {
             // Inicialización del formulario si es necesario
         }
+
+        private void btnimprimir_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txttipodocumento.Text))
+            {
+                MessageBox.Show("No se han generado resultados para imprimir", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            string textoHtml = Properties.Resources.PlantillaCompra; // Asegúrate de tener esta plantilla en los recursos del proyecto
+
+            // Obtener datos del negocio y generar el HTML como antes
+            string nombreNegocio;
+            string rifNegocio;
+            string direccionNegocio;
+            byte[] logoImage = null;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string queryNegocio = "SELECT Nombre, RIF, Direccion, Logo FROM NEGOCIO";
+                using (SqlCommand cmd = new SqlCommand(queryNegocio, conn))
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        nombreNegocio = reader["Nombre"].ToString();
+                        rifNegocio = reader["RIF"].ToString();
+                        direccionNegocio = reader["Direccion"].ToString();
+                        logoImage = reader["Logo"] as byte[];
+                    }
+                    else
+                    {
+                        nombreNegocio = "Nombre del Negocio";
+                        rifNegocio = "RIF del Negocio";
+                        direccionNegocio = "Dirección del Negocio";
+                    }
+                    reader.Close();
+                }
+            }
+
+            // Reemplazar marcadores de posición en la plantilla HTML
+            textoHtml = textoHtml.Replace("@nombrenegocio", nombreNegocio.ToUpper());
+            textoHtml = textoHtml.Replace("@docnegocio", rifNegocio);
+            textoHtml = textoHtml.Replace("@direcnegocio", direccionNegocio);
+            textoHtml = textoHtml.Replace("@tipodocumento", txttipodocumento.Text.ToUpper());
+            textoHtml = textoHtml.Replace("@numerodocumento", txtnumerodocumento.Text);
+            textoHtml = textoHtml.Replace("@docproveedor", txtdocproveedor.Text);
+            textoHtml = textoHtml.Replace("@nombreproveedor", txtnombreproveedor.Text);
+            textoHtml = textoHtml.Replace("@fecharegistro", txtfecha.Text);
+            textoHtml = textoHtml.Replace("@usuarioregistro", txtusuario.Text);
+
+            // Construir las filas para el DataGridView
+            string filas = string.Empty;
+            foreach (DataGridViewRow row in dgvdata.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                filas += "<tr>";
+                filas += $"<td>{row.Cells["Producto"].Value}</td>";
+                filas += $"<td>{row.Cells["PrecioCompra"].Value}</td>";
+                filas += $"<td>{row.Cells["Cantidad"].Value}</td>";
+                filas += $"<td>{row.Cells["SubTotal"].Value}</td>";
+                filas += "</tr>";
+            }
+            textoHtml = textoHtml.Replace("@filas", filas);
+            textoHtml = textoHtml.Replace("@montototal", txtmontototal.Text);
+
+            // Guardar archivo PDF temporal
+            string rutaPdf = Path.Combine(Path.GetTempPath(), $"Compra_{txtnumerodocumento.Text}.pdf");
+            using (FileStream stream = new FileStream(rutaPdf, FileMode.Create))
+            {
+                Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+
+                // Opcional: agregar logo al PDF
+                if (logoImage != null)
+                {
+                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(logoImage);
+                    img.ScaleToFit(60, 60);
+                    img.Alignment = iTextSharp.text.Image.UNDERLYING;
+                    img.SetAbsolutePosition(pdfDoc.Left, pdfDoc.GetTop(51));
+                    pdfDoc.Add(img);
+                }
+
+                using (StringReader sr = new StringReader(textoHtml))
+                {
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                }
+
+                pdfDoc.Close();
+                stream.Close();
+            }
+
+            // Mostrar el PDF en una ventana emergente
+            var pdfViewerForm = new PdfViewerForm(rutaPdf);
+            pdfViewerForm.ShowDialog();
+        }
+
     }
 }

@@ -31,6 +31,13 @@ namespace CapaPresentacion
             string documento = txtdocumento.Text;
             string clave = txtclave.Text;
 
+            // Verificar que el número de documento contenga exactamente 8 dígitos y solo números
+            if (!IsValidDocumento(documento))
+            {
+                MessageBox.Show("El número de documento debe contener exactamente 8 dígitos numéricos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // Salir del método si la validación falla
+            }
+
             // Cadena de conexión desde el archivo App.config
             string connectionString = ConfigurationManager.ConnectionStrings["cadena_conexion"].ConnectionString;
 
@@ -69,6 +76,25 @@ namespace CapaPresentacion
                     MessageBox.Show("Error al conectar con la base de datos: " + ex.Message);
                 }
             }
+        }
+
+        // Método auxiliar para validar el número de documento
+        private bool IsValidDocumento(string documento)
+        {
+            // Verificar que el documento no sea nulo o vacío
+            if (string.IsNullOrEmpty(documento))
+            {
+                return false;
+            }
+
+            // Verificar que el documento contenga exactamente 8 dígitos
+            if (documento.Length != 8)
+            {
+                return false;
+            }
+
+            // Verificar que el documento contenga solo números
+            return documento.All(char.IsDigit);
         }
 
         private void frm_closing(object sender, FormClosingEventArgs e)

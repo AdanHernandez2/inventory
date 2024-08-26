@@ -248,14 +248,14 @@ GO
 
  insert into USUARIO(Documento,NombreCompleto,Correo,Clave,IdRol,Estado)
  values 
- ('101010','ADMIN','@GMAIL.COM','123456',1,1)
+ ('12345678','ADMIN','@GMAIL.COM','123456',1,1)
 
  GO
 
 
  insert into USUARIO(Documento,NombreCompleto,Correo,Clave,IdRol,Estado)
  values 
- ('202020','EMPLEADO','@GMAIL.COM','123456',2,1)
+ ('98765432','EMPLEADO','@GMAIL.COM','123456',2,1)
 
  GO
 
@@ -266,6 +266,7 @@ GO
   (1,'menucompras'),
   (1,'menuclientes'),
   (1,'menuproveedores'),
+  (1,'menuinventario'),
   (1,'menureportes'),
   (1,'menuacercade')
 
@@ -276,6 +277,7 @@ GO
   (2,'menucompras'),
   (2,'menuclientes'),
   (2,'menuproveedores'),
+  (2,'menuinventario'),
   (2,'menuacercade')
 
   GO

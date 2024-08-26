@@ -37,6 +37,25 @@ namespace CapaPresentacion
             txtfecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
             txtidproveedor.Text = "0";
             txtidproducto.Text = "0";
+
+            // Mostrar frmDetalleCompra en el panel
+            MostrarDetalleCompraEnPanel();
+        }
+
+        private void MostrarDetalleCompraEnPanel()
+        {
+            // Instanciar el formulario frmDetalleCompra
+            frmDetalleCompra detalleCompra = new frmDetalleCompra();
+
+            // Configurar el formulario como un control en el panel
+            detalleCompra.TopLevel = false;
+            detalleCompra.FormBorderStyle = FormBorderStyle.None;
+            detalleCompra.Dock = DockStyle.Fill;
+
+            // Limpiar el panel antes de agregar el formulario
+            panelDetalleCompra.Controls.Clear();
+            panelDetalleCompra.Controls.Add(detalleCompra);
+            detalleCompra.Show();
         }
 
         private void btnbuscarproveedor_Click(object sender, EventArgs e)
@@ -79,7 +98,6 @@ namespace CapaPresentacion
                 }
             }
         }
-
 
         private void txtcodproducto_KeyDown(object sender, KeyEventArgs e)
         {
@@ -166,20 +184,19 @@ namespace CapaPresentacion
             if (!producto_existe)
             {
                 dgvdata.Rows.Add(new object[] {
-            txtidproducto.Text, // Código del producto
-            txtproducto.Text,   // Nombre del producto
-            preciocompra.ToString("0.00"), // Precio de compra
-            precioventa.ToString("0.00"),   // Precio de venta
-            txtcantidad.Value.ToString(),   // Cantidad
-            (txtcantidad.Value * preciocompra).ToString("0.00") // SubTotal
-        });
+                txtidproducto.Text, // Código del producto
+                txtproducto.Text,   // Nombre del producto
+                preciocompra.ToString("0.00"), // Precio de compra
+                precioventa.ToString("0.00"),   // Precio de venta
+                txtcantidad.Value.ToString(),   // Cantidad
+                (txtcantidad.Value * preciocompra).ToString("0.00") // SubTotal
+            });
 
                 calcularTotal();
                 limpiarProducto();
                 txtcodproducto.Select();
             }
         }
-
 
         private void limpiarProducto()
         {
@@ -207,7 +224,6 @@ namespace CapaPresentacion
             }
             txttotalpagar.Text = total.ToString("0.00");
         }
-
 
         private void dgvdata_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
@@ -243,7 +259,6 @@ namespace CapaPresentacion
                 }
             }
         }
-
 
         private void txtpreciocompra_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -297,11 +312,11 @@ namespace CapaPresentacion
 
                 detalle_compra.Rows.Add(
                     new object[] {
-                row.Cells["Codigo"].Value.ToString(),
-                Convert.ToDecimal(row.Cells["PrecioCompra"].Value),
-                Convert.ToDecimal(row.Cells["PrecioVenta"].Value),
-                Convert.ToInt32(row.Cells["Cantidad"].Value),
-                Convert.ToDecimal(row.Cells["SubTotal"].Value)
+                    row.Cells["Codigo"].Value.ToString(),
+                    Convert.ToDecimal(row.Cells["PrecioCompra"].Value),
+                    Convert.ToDecimal(row.Cells["PrecioVenta"].Value),
+                    Convert.ToInt32(row.Cells["Cantidad"].Value),
+                    Convert.ToDecimal(row.Cells["SubTotal"].Value)
                     });
             }
 
@@ -360,10 +375,6 @@ namespace CapaPresentacion
             // Limpiar el DataGridView
             dgvdata.Rows.Clear();
         }
-
-
-
-
     }
 
 }

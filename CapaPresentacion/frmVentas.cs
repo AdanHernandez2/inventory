@@ -28,6 +28,7 @@ namespace CapaPresentacion
 
         private void frmVentas_Load(object sender, EventArgs e)
         {
+            MostrarDetalleVenta();
             ConfigurarDataGridView();
 
             // Configurar otros controles del formulario
@@ -420,6 +421,26 @@ namespace CapaPresentacion
             txtcambio.Text = "";
             dgvdata.Rows.Clear();
         }
+
+        private void MostrarDetalleVenta()
+        {
+            // Crear instancia del formulario detalle
+            frmDetalleVenta detalleVentaForm = new frmDetalleVenta();
+
+            // Configurar el tamaño y otras propiedades si es necesario
+            detalleVentaForm.TopLevel = false;  // Importante para agregarlo al panel
+            detalleVentaForm.FormBorderStyle = FormBorderStyle.None;
+            detalleVentaForm.Dock = DockStyle.Fill;
+
+            // Limpiar panel y agregar el formulario
+            mostrardetalleventa.Controls.Clear();
+            mostrardetalleventa.Controls.Add(detalleVentaForm);
+
+            // Mostrar formulario
+            detalleVentaForm.BringToFront();
+            detalleVentaForm.Show();
+        }
+
     }
 
 }

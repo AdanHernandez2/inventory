@@ -29,6 +29,7 @@ namespace CapaPresentacion
             // Asigna un valor predeterminado si no se proporciona un documento
             documentoUsuarioActual = documentoUsuario ?? "ADMIN";
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void Inicio_Load(object sender, EventArgs e)
@@ -143,24 +144,14 @@ namespace CapaPresentacion
             AbrirFormulario(menumantenedor, new frmProductos());
         }
 
-        private void submenuregistrarventa_Click(object sender, EventArgs e)
+        private void menuventas_Click(object sender, EventArgs e)
         {
             AbrirFormulario(menuventas, new frmVentas(documentoUsuarioActual));
         }
 
-        private void submenuverdetalleventa_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario(menuventas, new frmDetalleVenta());
-        }
-
-        private void submenuregistrarcompra_Click(object sender, EventArgs e)
+        private void menucompras_Click(object sender, EventArgs e)
         {
             AbrirFormulario(menucompras, new frmCompras(documentoUsuarioActual));
-        }
-
-        private void submenutverdetallecompra_Click(object sender, EventArgs e)
-        {
-            AbrirFormulario(menucompras, new frmDetalleCompra());
         }
 
         private void menuclientes_Click(object sender, EventArgs e)
@@ -168,9 +159,13 @@ namespace CapaPresentacion
             AbrirFormulario((IconMenuItem)sender, new frmClientes());
         }
 
-        private void menuproveedores_Click(object sender, EventArgs e)
+        private void menuproveedores_Click_1(object sender, EventArgs e)
         {
             AbrirFormulario((IconMenuItem)sender, new frmProveedores());
+        }
+        private void menuinventario_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario((IconMenuItem)sender, new Inventario());
         }
 
         private void submenunegocio_Click(object sender, EventArgs e)
@@ -201,5 +196,7 @@ namespace CapaPresentacion
                 this.Close();
             }
         }
+
+
     }
 }

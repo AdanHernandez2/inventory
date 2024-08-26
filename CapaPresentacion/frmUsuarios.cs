@@ -128,6 +128,12 @@ namespace CapaPresentacion
                 MessageBox.Show("El documento debe contener solo números.");
                 return;
             }
+            // Verificar longitud de txtdocumento
+            if (txtdocumento.Text.Length != 8 || !txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe tener exactamente 8 dígitos.");
+                return;
+            }
 
             // Verificar que el campo Nombre Completo solo contenga letras y espacios
             if (!txtnombrecompleto.Text.All(c => Char.IsLetter(c) || Char.IsWhiteSpace(c)))
@@ -296,6 +302,13 @@ namespace CapaPresentacion
             if (!txtdocumento.Text.All(char.IsDigit))
             {
                 MessageBox.Show("El documento debe contener solo números.");
+                return;
+            }
+
+            // Verificar longitud de txtdocumento
+            if (txtdocumento.Text.Length != 8 || !txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El documento debe tener exactamente 8 dígitos.");
                 return;
             }
 
