@@ -16,6 +16,8 @@ namespace CapaPresentacion
         public Inventario()
         {
             InitializeComponent();
+            // Suscribirse al evento CellFormatting del DataGridView
+            dgvdata.CellFormatting += Dgvdata_CellFormatting;
         }
 
         private void Inventario_Load(object sender, EventArgs e)
@@ -70,8 +72,51 @@ namespace CapaPresentacion
 
             // Asignar el DataTable al DataGridView
             dgvdata.DataSource = dataTable;
+
+            // Verificar stock y mostrar mensaje de alerta si es necesario
+            VerificarStock(dataTable);
         }
 
+        private void VerificarStock(DataTable dataTable)
+        {
+            bool alertaMostrada = false;
+
+            foreach (DataRow row in dataTable.Rows)
+            {
+                int stock = Convert.ToInt32(row["Cantidad en Stock"]);
+
+                if (stock < 5)
+                {
+                    if (!alertaMostrada)
+                    {
+                        MessageBox.Show("Tienes productos que se están agotando por debajo de la cantidad mínima.");
+                        alertaMostrada = true;
+                    }
+                    break; // Solo mostrar el mensaje una vez
+                }
+            }
+        }
+
+        private void Dgvdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dgvdata.Columns[e.ColumnIndex].Name == "Cantidad en Stock" && e.RowIndex >= 0)
+            {
+                int stock = Convert.ToInt32(dgvdata.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
+
+                if (stock < 5)
+                {
+                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                }
+                if (stock < 10)
+                {
+                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+                }
+                else if (stock >= 10)
+                {
+                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LawnGreen;
+                }
+            }
+        }
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
@@ -108,6 +153,5 @@ namespace CapaPresentacion
             // Llamar al método para llenar la tabla con el filtro aplicado
             CargarDatos(filtro, busqueda);
         }
-
     }
 }

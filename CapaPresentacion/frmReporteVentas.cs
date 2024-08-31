@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +10,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PdfiumViewer;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+
+// Alias para iText
+using iTextPdfDocument = iText.Kernel.Pdf.PdfDocument;
+
+// Alias para PdfiumViewer
+using PdfiumPdfDocument = PdfiumViewer.PdfDocument;
+
 
 namespace CapaPresentacion
 {
@@ -20,6 +32,9 @@ namespace CapaPresentacion
         public frmReporteVentas()
         {
             InitializeComponent();
+            dgvdata.CellClick += dgvdata_CellClick;
+            dgvdata.CellMouseEnter += dgvdata_CellMouseEnter;
+            dgvdata.CellMouseLeave += dgvdata_CellMouseLeave;
         }
 
         private void frmReporteVentas_Load(object sender, EventArgs e)
@@ -140,22 +155,7 @@ namespace CapaPresentacion
             {
                 if (row.Visible)
                 {
-                    dt.Rows.Add(new object[]
-                    {
-                    row.Cells[0].Value?.ToString(),
-                    row.Cells[1].Value?.ToString(),
-                    row.Cells[2].Value?.ToString(),
-                    row.Cells[3].Value?.ToString(),
-                    row.Cells[4].Value?.ToString(),
-                    row.Cells[5].Value?.ToString(),
-                    row.Cells[6].Value?.ToString(),
-                    row.Cells[7].Value?.ToString(),
-                    row.Cells[8].Value?.ToString(),
-                    row.Cells[9].Value?.ToString(),
-                    row.Cells[10].Value?.ToString(),
-                    row.Cells[11].Value?.ToString(),
-                    row.Cells[12].Value?.ToString()
-                    });
+                    dt.Rows.Add(row.Cells.Cast<DataGridViewCell>().Select(cell => cell.Value?.ToString()).ToArray());
                 }
             }
 
@@ -171,18 +171,101 @@ namespace CapaPresentacion
                 {
                     using (XLWorkbook wb = new XLWorkbook())
                     {
-                        var hoja = wb.Worksheets.Add(dt, "Informe");
-                        hoja.ColumnsUsed().AdjustToContents();
+                        var hoja = wb.Worksheets.Add("Informe");
+
+                        // Ruta relativa desde el directorio del proyecto
+                        var projectDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                        var logoPath = Path.Combine(projectDirectory, @"..\..\Resources\BannerReporte.png");
+
+                        // Resolver la ruta a la dirección correcta
+                        logoPath = Path.GetFullPath(logoPath);
+
+                        // Verificar si el archivo de imagen existe
+                        if (!File.Exists(logoPath))
+                        {
+                            MessageBox.Show($"El archivo de imagen no se encuentra en la ruta: {logoPath}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+
+                        // Añadir el logo
+                        var logo = hoja.AddPicture(logoPath).MoveTo(hoja.Cell("A1"));
+
+                        // Ajustar el tamaño de la imagen
+                        logo.Width = 300; // Ajusta el ancho del logo (en puntos)
+                        logo.Height = 95; // Ajusta la altura del logo (en puntos)
+
+                        // Mover los datos a partir de la fila 6
+                        hoja.Cell("A6").InsertTable(dt);
+
+                        // Ajustar el ancho de las columnas para que el contenido sea visible
+                        hoja.Columns().AdjustToContents();
+
                         wb.SaveAs(savefile.FileName);
                     }
                     MessageBox.Show("Reporte Generado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Error al generar reporte", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    // Mostrar detalles del error
+                    MessageBox.Show($"Error al generar reporte: {ex.Message}", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
         }
+
+
+        private void dgvdata_CellMouseEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvdata.Columns[e.ColumnIndex].Name == "NumeroDocumento")
+                {
+                    foreach (DataGridViewRow row in dgvdata.Rows)
+                    {
+                        row.Cells[e.ColumnIndex].Style.BackColor = Color.FromArgb(14, 112, 243);
+                        row.Cells[e.ColumnIndex].Style.ForeColor = Color.White;
+                    }
+                }
+            }
+        }
+
+        private void dgvdata_CellMouseLeave(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                if (dgvdata.Columns[e.ColumnIndex].Name == "NumeroDocumento")
+                {
+                    foreach (DataGridViewRow row in dgvdata.Rows)
+                    {
+                        row.Cells[e.ColumnIndex].Style.BackColor = Color.White; // O el color de fondo original de la columna
+                        row.Cells[e.ColumnIndex].Style.ForeColor = Color.Black;
+                    }
+                }
+            }
+        }
+
+
+        private void dgvdata_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verifica que la fila y columna son válidas y que la columna es la de NumeroDocumento
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // Aquí se asume que la columna de NumeroDocumento es la tercera (índice 2)
+                if (dgvdata.Columns[e.ColumnIndex].Name == "NumeroDocumento")
+                {
+                    // Obtén el valor de la celda
+                    string numeroDocumento = dgvdata.Rows[e.RowIndex].Cells[e.ColumnIndex].Value?.ToString();
+
+                    if (!string.IsNullOrEmpty(numeroDocumento))
+                    {
+                        // Copia el valor al portapapeles
+                        Clipboard.SetText(numeroDocumento);
+                        MessageBox.Show("Número de Documento copiado al portapapeles.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+        }
+
+
     }
 
 }

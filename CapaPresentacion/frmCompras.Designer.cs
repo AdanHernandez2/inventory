@@ -69,7 +69,7 @@
             this.txttotalpagar = new System.Windows.Forms.TextBox();
             this.btnregistrar = new FontAwesome.Sharp.IconButton();
             this.btnagregarproducto = new FontAwesome.Sharp.IconButton();
-            this.panelDetalleCompra = new System.Windows.Forms.Panel();
+            this.btnimprimir = new FontAwesome.Sharp.IconButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -82,10 +82,10 @@
             this.label10.BackColor = System.Drawing.Color.White;
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(12, 18);
+            this.label10.Location = new System.Drawing.Point(54, 18);
             this.label10.Name = "label10";
             this.label10.Padding = new System.Windows.Forms.Padding(6, 0, 0, 0);
-            this.label10.Size = new System.Drawing.Size(588, 529);
+            this.label10.Size = new System.Drawing.Size(588, 543);
             this.label10.TabIndex = 120;
             // 
             // label2
@@ -93,7 +93,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(32, 28);
+            this.label2.Location = new System.Drawing.Point(74, 28);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(164, 25);
             this.label2.TabIndex = 195;
@@ -107,7 +107,7 @@
             this.groupBox1.Controls.Add(this.cbotipodocumento);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(28, 68);
+            this.groupBox1.Location = new System.Drawing.Point(70, 68);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(322, 75);
             this.groupBox1.TabIndex = 196;
@@ -166,7 +166,7 @@
             this.groupBox2.Controls.Add(this.txtnombreproveedor);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(362, 28);
+            this.groupBox2.Location = new System.Drawing.Point(404, 28);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(214, 131);
             this.groupBox2.TabIndex = 197;
@@ -250,7 +250,7 @@
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.txtpreciocompra);
             this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Location = new System.Drawing.Point(28, 150);
+            this.groupBox3.Location = new System.Drawing.Point(70, 150);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(328, 123);
             this.groupBox3.TabIndex = 198;
@@ -400,7 +400,7 @@
             this.Cantidad,
             this.SubTotal,
             this.btneliminar});
-            this.dgvdata.Location = new System.Drawing.Point(28, 279);
+            this.dgvdata.Location = new System.Drawing.Point(70, 279);
             this.dgvdata.MultiSelect = false;
             this.dgvdata.Name = "dgvdata";
             this.dgvdata.ReadOnly = true;
@@ -467,7 +467,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.White;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(463, 187);
+            this.label1.Location = new System.Drawing.Point(505, 187);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(94, 15);
             this.label1.TabIndex = 201;
@@ -477,7 +477,7 @@
             // 
             this.txttotalpagar.BackColor = System.Drawing.Color.WhiteSmoke;
             this.txttotalpagar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txttotalpagar.Location = new System.Drawing.Point(467, 205);
+            this.txttotalpagar.Location = new System.Drawing.Point(509, 205);
             this.txttotalpagar.Name = "txttotalpagar";
             this.txttotalpagar.ReadOnly = true;
             this.txttotalpagar.Size = new System.Drawing.Size(87, 21);
@@ -492,7 +492,7 @@
             this.btnregistrar.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnregistrar.IconSize = 30;
             this.btnregistrar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnregistrar.Location = new System.Drawing.Point(467, 232);
+            this.btnregistrar.Location = new System.Drawing.Point(509, 232);
             this.btnregistrar.Name = "btnregistrar";
             this.btnregistrar.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
             this.btnregistrar.Size = new System.Drawing.Size(91, 36);
@@ -510,7 +510,7 @@
             this.btnagregarproducto.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnagregarproducto.IconSize = 30;
             this.btnagregarproducto.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnagregarproducto.Location = new System.Drawing.Point(362, 205);
+            this.btnagregarproducto.Location = new System.Drawing.Point(404, 205);
             this.btnagregarproducto.Name = "btnagregarproducto";
             this.btnagregarproducto.Size = new System.Drawing.Size(86, 61);
             this.btnagregarproducto.TabIndex = 200;
@@ -519,20 +519,30 @@
             this.btnagregarproducto.UseVisualStyleBackColor = true;
             this.btnagregarproducto.Click += new System.EventHandler(this.btnagregarproducto_Click);
             // 
-            // panelDetalleCompra
+            // btnimprimir
             // 
-            this.panelDetalleCompra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(29)))), ((int)(((byte)(32)))));
-            this.panelDetalleCompra.Location = new System.Drawing.Point(628, 18);
-            this.panelDetalleCompra.Name = "panelDetalleCompra";
-            this.panelDetalleCompra.Size = new System.Drawing.Size(626, 503);
-            this.panelDetalleCompra.TabIndex = 204;
+            this.btnimprimir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnimprimir.IconChar = FontAwesome.Sharp.IconChar.FileDownload;
+            this.btnimprimir.IconColor = System.Drawing.Color.Black;
+            this.btnimprimir.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnimprimir.IconSize = 17;
+            this.btnimprimir.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnimprimir.Location = new System.Drawing.Point(484, 525);
+            this.btnimprimir.Name = "btnimprimir";
+            this.btnimprimir.Size = new System.Drawing.Size(134, 21);
+            this.btnimprimir.TabIndex = 206;
+            this.btnimprimir.Text = "Imprimir";
+            this.btnimprimir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnimprimir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnimprimir.UseVisualStyleBackColor = true;
+            this.btnimprimir.Click += new System.EventHandler(this.btnimprimir_Click);
             // 
             // frmCompras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1370, 556);
-            this.Controls.Add(this.panelDetalleCompra);
+            this.ClientSize = new System.Drawing.Size(724, 570);
+            this.Controls.Add(this.btnimprimir);
             this.Controls.Add(this.btnregistrar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txttotalpagar);
@@ -600,6 +610,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Cantidad;
         private System.Windows.Forms.DataGridViewTextBoxColumn SubTotal;
         private System.Windows.Forms.DataGridViewButtonColumn btneliminar;
-        private System.Windows.Forms.Panel panelDetalleCompra;
+        private FontAwesome.Sharp.IconButton btnimprimir;
     }
 }

@@ -173,6 +173,11 @@ namespace CapaPresentacion
             AbrirFormulario(menumantenedor, new frmNegocio());
         }
 
+        private void Respaldo_Click(object sender, EventArgs e)
+        {
+            AbrirFormulario(menumantenedor, new Respaldo());
+        }
+
         private void submenureportecompras_Click(object sender, EventArgs e)
         {
             AbrirFormulario(menureportes, new frmReporteCompras());
@@ -183,7 +188,17 @@ namespace CapaPresentacion
             AbrirFormulario(menureportes, new frmReporteVentas());
         }
 
-        private void menuacercade_Click(object sender, EventArgs e)
+        private void DetalleCompra_Click_1(object sender, EventArgs e)
+        {
+            AbrirFormulario(menureportes, new frmDetalleCompra());
+        }
+
+        private void DetalleVenta_Click_1(object sender, EventArgs e)
+        {
+            AbrirFormulario(menureportes, new frmDetalleVenta());
+        }
+
+            private void menuacercade_Click(object sender, EventArgs e)
         {
             mdAcercade md = new mdAcercade();
             md.ShowDialog();
@@ -197,6 +212,6 @@ namespace CapaPresentacion
             }
         }
 
-
+       
     }
-}
+ }

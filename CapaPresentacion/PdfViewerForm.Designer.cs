@@ -50,6 +50,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "PdfViewerForm";
             this.Text = "Pdf";
+//            this.Load += new System.EventHandler(this.PdfViewerForm_Load_1);
             this.ResumeLayout(false);
 
         }

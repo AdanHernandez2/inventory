@@ -34,5 +34,7 @@ namespace CapaPresentacion
                 MessageBox.Show("Error al cargar el PDF: " + ex.Message);
             }
         }
+
+
     }
 }

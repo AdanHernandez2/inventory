@@ -1,5 +1,8 @@
 ﻿using CapaPresentacion.Modales;
 using CapaPresentacion.Utilidades;
+using iTextSharp.tool.xml;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +10,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +23,7 @@ namespace CapaPresentacion
     {
         private string documentoUsuario;
         private string connectionString = "Data Source=adn-script\\SQLEXPRESS;Initial Catalog=DBSISTEMA_INVENTARIO;User ID=sa;Password=Local;"; // Actualiza con tu cadena de conexión
+        private string numeroDocumentoVenta;
 
         public frmVentas(string documentoUsuario)
         {
@@ -28,7 +33,7 @@ namespace CapaPresentacion
 
         private void frmVentas_Load(object sender, EventArgs e)
         {
-            MostrarDetalleVenta();
+
             ConfigurarDataGridView();
 
             // Configurar otros controles del formulario
@@ -164,7 +169,7 @@ namespace CapaPresentacion
 
             foreach (DataGridViewRow fila in dgvdata.Rows)
             {
-                if (fila.Cells["IdProducto"].Value != null && fila.Cells["IdProducto"].Value.ToString() == txtidproducto.Text)
+                if (fila.Cells["Codigo"].Value != null && fila.Cells["Codigo"].Value.ToString() == txtidproducto.Text)
                 {
                     producto_existe = true;
                     break;
@@ -174,12 +179,12 @@ namespace CapaPresentacion
             if (!producto_existe)
             {
                 dgvdata.Rows.Add(new object[] {
-                txtidproducto.Text,
-                txtproducto.Text,
-                precio.ToString("0.00", CultureInfo.InvariantCulture),
-                txtcantidad.Value.ToString(),
-                (txtcantidad.Value * precio).ToString("0.00", CultureInfo.InvariantCulture)
-            });
+              txtidproducto.Text,
+              txtproducto.Text,
+              precio.ToString("0.00", CultureInfo.InvariantCulture),
+              txtcantidad.Value.ToString(),
+              (txtcantidad.Value * precio).ToString("0.00", CultureInfo.InvariantCulture)
+          });
 
                 CalcularTotal();
                 LimpiarProducto();
@@ -255,7 +260,7 @@ namespace CapaPresentacion
             if (e.RowIndex < 0)
                 return;
 
-            if (e.ColumnIndex == dgvdata.Columns["btneliminar"].Index)
+            if (e.ColumnIndex == 5)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
@@ -264,7 +269,8 @@ namespace CapaPresentacion
                 var x = e.CellBounds.Left + (e.CellBounds.Width - w) / 2;
                 var y = e.CellBounds.Top + (e.CellBounds.Height - h) / 2;
 
-                e.Graphics.DrawImage(Properties.Resources.delete25, new Rectangle(x, y, w, h));
+                // Especificar el espacio de nombres completo para evitar ambigüedad
+                e.Graphics.DrawImage(Properties.Resources.delete25, new System.Drawing.Rectangle(x, y, w, h));
                 e.Handled = true;
             }
         }
@@ -361,7 +367,7 @@ namespace CapaPresentacion
             }
 
             int idVenta;
-            string numeroDocumento = string.Format("{0:00000}", DateTime.Now.Ticks % 100000);
+            numeroDocumentoVenta = string.Format("{0:00000}", DateTime.Now.Ticks % 100000);
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -377,7 +383,7 @@ namespace CapaPresentacion
                         "VALUES (@IdUsuario, @TipoDocumento, @NumeroDocumento, @DocumentoCliente, @NombreCliente, @MontoPago, @MontoCambio, @MontoTotal)";
                     command.Parameters.AddWithValue("@IdUsuario", documentoUsuario);
                     command.Parameters.AddWithValue("@TipoDocumento", cbotipodocumento.SelectedItem.ToString());
-                    command.Parameters.AddWithValue("@NumeroDocumento", numeroDocumento);
+                    command.Parameters.AddWithValue("@NumeroDocumento", numeroDocumentoVenta);
                     command.Parameters.AddWithValue("@DocumentoCliente", txtdocumentocliente.Text);
                     command.Parameters.AddWithValue("@NombreCliente", txtnombrecliente.Text);
                     command.Parameters.AddWithValue("@MontoPago", montoPago);
@@ -401,9 +407,23 @@ namespace CapaPresentacion
                     }
 
                     transaction.Commit();
-                    Clipboard.SetText(numeroDocumento);
-                    MessageBox.Show("Venta registrada con éxito. El número de documento ha sido copiado al portapapeles.", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LimpiarFormulario();
+
+                    // Preguntar al usuario si quiere ver el PDF
+                    var result = MessageBox.Show(
+                        $"Venta registrada con éxito. El número de documento es {numeroDocumentoVenta}. ¿Desea ver el PDF?",
+                        "Mensaje",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information
+                    );
+
+                    if (result == DialogResult.Yes)
+                    {
+                        btnimprimir_Click(sender, e); // Llamar al método para generar y mostrar el PDF
+                    }
+                    else
+                    {
+                        LimpiarFormulario();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -412,6 +432,8 @@ namespace CapaPresentacion
                 }
             }
         }
+
+
 
         private void LimpiarFormulario()
         {
@@ -422,26 +444,118 @@ namespace CapaPresentacion
             txtcambio.Text = "";
             dgvdata.Rows.Clear();
         }
-
-        private void MostrarDetalleVenta()
+        private void btnimprimir_Click(object sender, EventArgs e)
         {
-            // Crear instancia del formulario detalle
-            frmDetalleVenta detalleVentaForm = new frmDetalleVenta();
+            if (string.IsNullOrWhiteSpace(numeroDocumentoVenta))
+            {
+                MessageBox.Show("No hay una venta registrada para imprimir", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
 
-            // Configurar el tamaño y otras propiedades si es necesario
-            detalleVentaForm.TopLevel = false;  // Importante para agregarlo al panel
-            detalleVentaForm.FormBorderStyle = FormBorderStyle.None;
-            detalleVentaForm.Dock = DockStyle.Fill;
+            string textoHtml = Properties.Resources.PlantillaVenta;
 
-            // Limpiar panel y agregar el formulario
-            mostrardetalleventa.Controls.Clear();
-            mostrardetalleventa.Controls.Add(detalleVentaForm);
+            string nombreNegocio;
+            string rifNegocio;
+            string direccionNegocio;
+            byte[] logoImage = null;
+            DataTable detalleVenta = new DataTable();
 
-            // Mostrar formulario
-            detalleVentaForm.BringToFront();
-            detalleVentaForm.Show();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+
+                // Obtener información del negocio
+                string queryNegocio = "SELECT Nombre, RIF, Direccion, Logo FROM NEGOCIO";
+                using (SqlCommand cmd = new SqlCommand(queryNegocio, conn))
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        nombreNegocio = reader["Nombre"].ToString();
+                        rifNegocio = reader["RIF"].ToString();
+                        direccionNegocio = reader["Direccion"].ToString();
+                        logoImage = reader["Logo"] as byte[];
+                    }
+                    else
+                    {
+                        nombreNegocio = "Nombre del Negocio";
+                        rifNegocio = "RIF del Negocio";
+                        direccionNegocio = "Dirección del Negocio";
+                    }
+                    reader.Close();
+                }
+
+                // Obtener detalles de la venta
+                string queryDetalles = @"
+            SELECT p.Codigo, p.Nombre, d.PrecioVenta, d.Cantidad, d.SubTotal
+            FROM DETALLE_VENTA d
+            JOIN PRODUCTO p ON d.IdProducto = p.Codigo
+            WHERE d.IdVenta = (SELECT IdVenta FROM VENTA WHERE NumeroDocumento = @NumeroDocumento)";
+                using (SqlCommand cmd = new SqlCommand(queryDetalles, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NumeroDocumento", numeroDocumentoVenta);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(detalleVenta);
+                }
+            }
+
+            // Reemplazar marcadores de posición en la plantilla HTML
+            textoHtml = textoHtml.Replace("@nombrenegocio", nombreNegocio.ToUpper());
+            textoHtml = textoHtml.Replace("@docnegocio", rifNegocio);
+            textoHtml = textoHtml.Replace("@direcnegocio", direccionNegocio);
+            textoHtml = textoHtml.Replace("@tipodocumento", cbotipodocumento.SelectedItem.ToString());
+            textoHtml = textoHtml.Replace("@numerodocumento", numeroDocumentoVenta);
+            textoHtml = textoHtml.Replace("@doccliente", txtdocumentocliente.Text);
+            textoHtml = textoHtml.Replace("@nombrecliente", txtnombrecliente.Text);
+            textoHtml = textoHtml.Replace("@fecharegistro", txtfecha.Text);
+            textoHtml = textoHtml.Replace("@usuarioregistro", documentoUsuario);
+
+            // Construir las filas para el DataGridView
+            string filas = string.Empty;
+            foreach (DataRow row in detalleVenta.Rows)
+            {
+                filas += "<tr>";
+                filas += $"<td>{row["Nombre"]}</td>";
+                filas += $"<td>{row["PrecioVenta"]}</td>";
+                filas += $"<td>{row["Cantidad"]}</td>";
+                filas += $"<td>{row["SubTotal"]}</td>";
+                filas += "</tr>";
+            }
+            textoHtml = textoHtml.Replace("@filas", filas);
+            textoHtml = textoHtml.Replace("@montototal", detalleVenta.Compute("SUM(SubTotal)", string.Empty).ToString());
+
+            // Guardar archivo PDF temporal
+            string rutaPdf = Path.Combine(Path.GetTempPath(), $"Venta_{DateTime.Now.Ticks}.pdf");
+            using (FileStream stream = new FileStream(rutaPdf, FileMode.Create))
+            {
+                Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                pdfDoc.Open();
+
+                // Opcional: agregar logo al PDF
+                if (logoImage != null)
+                {
+                    iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(logoImage);
+                    img.ScaleToFit(60, 60);
+                    img.Alignment = iTextSharp.text.Image.UNDERLYING;
+                    img.SetAbsolutePosition(pdfDoc.Left, pdfDoc.GetTop(51));
+                    pdfDoc.Add(img);
+                }
+
+                using (StringReader sr = new StringReader(textoHtml))
+                {
+                    XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                }
+
+                pdfDoc.Close();
+                stream.Close();
+            }
+
+            // Mostrar el PDF en una ventana emergente
+            var pdfViewerForm = new PdfViewerForm(rutaPdf);
+            pdfViewerForm.ShowDialog();
         }
 
+    
     }
-
 }
