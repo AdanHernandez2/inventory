@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
+
 namespace CapaPresentacion
 {
     public partial class Respaldo : Form
@@ -43,9 +46,9 @@ namespace CapaPresentacion
                         {
                             connection.Open();
                             string query = $@"
-                        BACKUP DATABASE [DBSISTEMA_INVENTARIO] 
-                        TO DISK = '{backupFileName}' 
-                        WITH FORMAT, INIT, SKIP, NOREWIND, NOUNLOAD, STATS = 10";
+                     BACKUP DATABASE [DBSISTEMA_INVENTARIO] 
+                     TO DISK = '{backupFileName}' 
+                     WITH FORMAT, INIT, SKIP, NOREWIND, NOUNLOAD, STATS = 10";
 
                             using (SqlCommand command = new SqlCommand(query, connection))
                             {
@@ -86,16 +89,32 @@ namespace CapaPresentacion
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
                             connection.Open();
-                            string query = $@"
-                        RESTORE DATABASE [DBSISTEMA_INVENTARIO] 
-                        FROM DISK = '{backupFileName}' 
-                        WITH REPLACE, STATS = 10";
 
-                            using (SqlCommand command = new SqlCommand(query, connection))
+                            // Cambiar la base de datos a modo de usuario único
+                            string setSingleUserQuery = @"
+                    USE master;
+                    ALTER DATABASE [DBSISTEMA_INVENTARIO] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+                    ";
+
+                            // Restaurar la base de datos
+                            string restoreQuery = $@"
+                    RESTORE DATABASE [DBSISTEMA_INVENTARIO]
+                    FROM DISK = '{backupFileName}'
+                    WITH REPLACE, STATS = 10;
+                    ";
+
+                            // Volver a poner la base de datos en modo de multiusuario
+                            string setMultiUserQuery = @"
+                    ALTER DATABASE [DBSISTEMA_INVENTARIO] SET MULTI_USER;
+                    ";
+
+                            // Ejecutar las consultas
+                            using (SqlCommand command = new SqlCommand($"{setSingleUserQuery} {restoreQuery} {setMultiUserQuery}", connection))
                             {
                                 command.ExecuteNonQuery();
-                                MessageBox.Show("Restore completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
+
+                            MessageBox.Show("Restore completed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     catch (SqlException sqlEx)
@@ -112,6 +131,11 @@ namespace CapaPresentacion
                     }
                 }
             }
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
