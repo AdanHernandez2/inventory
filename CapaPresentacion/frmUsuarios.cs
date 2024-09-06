@@ -131,7 +131,7 @@ namespace CapaPresentacion
             // Verificar longitud de txtdocumento
             if (txtdocumento.Text.Length != 8 || !txtdocumento.Text.All(char.IsDigit))
             {
-                MessageBox.Show("El documento debe tener exactamente 8 dígitos.");
+                MessageBox.Show("El documento debe tener 8 dígitos.");
                 return;
             }
 
@@ -308,7 +308,7 @@ namespace CapaPresentacion
             // Verificar longitud de txtdocumento
             if (txtdocumento.Text.Length != 8 || !txtdocumento.Text.All(char.IsDigit))
             {
-                MessageBox.Show("El documento debe tener exactamente 8 dígitos.");
+                MessageBox.Show("El documento debe tener 8 dígitos.");
                 return;
             }
 

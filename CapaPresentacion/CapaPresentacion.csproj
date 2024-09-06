@@ -424,6 +424,12 @@
     <Compile Include="Modales\mdAcercade.Designer.cs">
       <DependentUpon>mdAcercade.cs</DependentUpon>
     </Compile>
+    <Compile Include="Modales\mdAyuda.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modales\mdAyuda.Designer.cs">
+      <DependentUpon>mdAyuda.cs</DependentUpon>
+    </Compile>
     <Compile Include="Modales\mdCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -507,6 +513,9 @@
     <EmbeddedResource Include="Modales\mdAcercade.resx">
       <DependentUpon>mdAcercade.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Modales\mdAyuda.resx">
+      <DependentUpon>mdAyuda.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Modales\mdCliente.resx">
       <DependentUpon>mdCliente.cs</DependentUpon>
     </EmbeddedResource>
@@ -558,6 +567,7 @@
     <None Include="Resources\delete25.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MANUALDEUSUARIO.pdf" />
     <None Include="Resources\PlantillaCompra.html" />
   </ItemGroup>
   <ItemGroup>

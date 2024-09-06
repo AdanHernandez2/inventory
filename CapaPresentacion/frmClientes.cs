@@ -62,9 +62,15 @@ namespace CapaPresentacion
                 MessageBox.Show("El documento debe contener solo números.");
                 return;
             }
+            // Verificar longitud de txtdocumento
+            if (txtdocumento.Text.Length != 8 || !txtdocumento.Text.All(char.IsDigit))
+            {
+                MessageBox.Show("El Documento debe contener 8 digitos.");
+                return;
+            }
 
-            // Verificar que el teléfono solo contenga números
-            if (!txttelefono.Text.All(char.IsDigit))
+                // Verificar que el teléfono solo contenga números
+                if (!txttelefono.Text.All(char.IsDigit))
             {
                 MessageBox.Show("El teléfono debe contener solo números.");
                 return;

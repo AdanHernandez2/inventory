@@ -34,7 +34,7 @@ namespace CapaPresentacion
             // Verificar que el número de documento contenga exactamente 8 dígitos y solo números
             if (!IsValidDocumento(documento))
             {
-                MessageBox.Show("El número de documento debe contener exactamente 8 dígitos numéricos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El número de documento debe contener 8 dígitos numéricos.", "Error de Validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return; // Salir del método si la validación falla
             }
 
@@ -88,10 +88,12 @@ namespace CapaPresentacion
             }
 
             // Verificar que el documento contenga exactamente 8 dígitos
-            if (documento.Length != 8)
+            if (  documento.Length!= 8)
             {
                 return false;
+
             }
+           
 
             // Verificar que el documento contenga solo números
             return documento.All(char.IsDigit);

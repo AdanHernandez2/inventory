@@ -268,6 +268,7 @@ GO
   (1,'menuproveedores'),
   (1,'menuinventario'),
   (1,'menureportes'),
+  (1,'menuayuda'),
   (1,'menuacercade')
 
   GO
@@ -278,6 +279,7 @@ GO
   (2,'menuclientes'),
   (2,'menuproveedores'),
   (2,'menuinventario'),
+  (2,'menuayuda'),
   (2,'menuacercade')
 
   GO
