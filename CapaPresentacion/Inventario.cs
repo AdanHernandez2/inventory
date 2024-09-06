@@ -83,40 +83,55 @@ namespace CapaPresentacion
 
             foreach (DataRow row in dataTable.Rows)
             {
-                int stock = Convert.ToInt32(row["Cantidad en Stock"]);
-
-                if (stock < 5)
+                try
                 {
-                    if (!alertaMostrada)
+                    int stock = Convert.ToInt32(row["Cantidad en Stock"]);
+
+                    if (stock < 5)
                     {
-                        MessageBox.Show("Tienes productos que se están agotando por debajo de la cantidad mínima.");
-                        alertaMostrada = true;
+                        if (!alertaMostrada)
+                        {
+                            MessageBox.Show("Tienes productos que se están agotando por debajo de la cantidad mínima.");
+                            alertaMostrada = true;
+                        }
+                        break; // Solo mostrar el mensaje una vez
                     }
-                    break; // Solo mostrar el mensaje una vez
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al procesar el stock: {ex.Message}");
                 }
             }
         }
+
 
         private void Dgvdata_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dgvdata.Columns[e.ColumnIndex].Name == "Cantidad en Stock" && e.RowIndex >= 0)
+            if (dgvdata.Columns[e.ColumnIndex].HeaderText == "Cantidad en Stock" && e.RowIndex >= 0)
             {
-                int stock = Convert.ToInt32(dgvdata.Rows[e.RowIndex].Cells[e.ColumnIndex].Value);
-
-                if (stock < 5)
+                int stock;
+                if (int.TryParse(e.Value?.ToString(), out stock))
                 {
-                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    if (stock <= 5)
+                    {
+                        dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Red;
+                    }
+                    else if (stock < 10)
+                    {
+                        dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
+                    }
+                    else
+                    {
+                        dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LawnGreen;
+                    }
                 }
-                if (stock < 10)
+                else
                 {
-                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.Yellow;
-                }
-                else if (stock >= 10)
-                {
-                    dgvdata.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LawnGreen;
+                    e.CellStyle.BackColor = Color.White; // Color predeterminado si el stock no es un número válido
                 }
             }
         }
+
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
