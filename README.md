@@ -20,7 +20,7 @@ Este es un sistema de inventario básico desarrollado en C# utilizando .NET Fram
 
 ## Estructura del Proyecto
 
-El proyecto sigue una estructura de una sola capa, con toda la lógica de negocio y la interfaz de usuario en la capa `CapaGlobal`.
+El proyecto sigue una estructura de una sola capa, con toda la lógica de negocio y la interfaz de usuario en la capa `CapaPresentacion`.
 
 ## Instalación
 
